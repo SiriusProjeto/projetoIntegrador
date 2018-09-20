@@ -24,12 +24,20 @@ void mensagem_de_erro(char *text){
 		text,NULL,ALLEGRO_MESSAGEBOX_ERROR);
 }
 
+void desenha_imagem(ALLEGRO_BITMAP *imagem){
+
+    al_draw_bitmap(imagem,0, 0, 0); //Desenha imagem na tela
+    al_flip_display(); //Atualiza o que está sendo mostrado na tea
+
+    //**neste lugar colocar evento "clique no inicio**"
+    al_rest(3.0); //Função que segura a execução por determinado tempo
+    }
 
 int main(){
 
     //VARIAVEIS
     ALLEGRO_DISPLAY *janela = NULL; //VAriavel tipo ALLEGRO_DISPLAY Representando Janela
-    ALLEGRO_BITMAP *imagem_principal = NULL; //Variavel tipo ALLEGRO_BITMAP Representando a imagem atual da tela
+    ALLEGRO_BITMAP *tela_inicial = NULL; //Variavel tipo ALLEGRO_BITMAP Representando a imagem atual da tela
     ALLEGRO_EVENT_QUEUE *fila_eventos = NULL; //Variavel tipo ALLEGRO_EVENT_QUEUE para fila de eventos
 
     //INICIALIZAÇÔES
@@ -50,9 +58,9 @@ int main(){
         return -1;
     }
 
-    imagem_principal = al_load_bitmap("res/img/Menu.png");//Função que carrega imagem para variavel
-    if (!imagem_principal){
-    mensagem_de_erro("Erro no carregamento da imagem");
+    tela_inicial = al_load_bitmap("res/img/Menu.png");//Função que carrega imagem para variavel
+    if (!tela_inicial){
+    mensagem_de_erro("Erro no carregamento da tela_inicial");
     return -1;
     }
 
@@ -62,12 +70,8 @@ int main(){
         return -1;
     }
 
-    al_draw_bitmap(imagem_principal,0, 0, 0); //Desenha imagem na tela
+    desenha_imagem(tela_inicial);
 
-    al_flip_display(); //Atualiza o que está sendo mostrado na tela
-
-    //**neste lugar colocar evento "clique no inicio**"
-    al_rest(3.0); //Função que segura a execução por determinado tempo
 
 
     return 0;
