@@ -1,5 +1,0 @@
-# depslib dependency file v1.0
-1537115428 source:/home/pc/Documents/helloallegro/main.c
-	<allegro5/allegro.h>
-	<allegro5/allegro_image.h>
-
