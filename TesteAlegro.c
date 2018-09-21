@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <allegro.h>
 
-
+Victor
 
 const float FPS = 60;const int SCREEN_W = 640;const int SCREEN_H = 480;const int BOUNCER_SIZE = 32;int main(int argc, char **argv){
    ALLEGRO_DISPLAY *display = NULL;
