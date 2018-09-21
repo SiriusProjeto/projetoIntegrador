@@ -28,7 +28,7 @@ int main(){
 
     //VARIAVEIS
     ALLEGRO_DISPLAY *janela = NULL; //VAriavel tipo ALLEGRO_DISPLAY Representando Janela
-    ALLEGRO_BITMAP *tela_inicial, *tela_X = NULL; //Variavel tipo ALLEGRO_BITMAP Representando a imagem atual da tela
+    ALLEGRO_BITMAP *tela_inicial, *tela_X = NULL, *area_iniciar = 0; //Variavel tipo ALLEGRO_BITMAP Representando a imagem atual da tela
     ALLEGRO_EVENT_QUEUE *fila_eventos = NULL; //Variavel tipo ALLEGRO_EVENT_QUEUE para fila de eventos
     ALLEGRO_EVENT *evento = NULL;
     int sair = 0; //Variavel para o loop
@@ -60,6 +60,12 @@ int main(){
     return -1;
     }
 
+    botao_sair = al_create_bitmap(100, 50);
+    if (!botao_sair){
+        mensagem_de_erro("Erro no carregamento da tela_inicial");
+        return -1;
+    }
+
     fila_eventos = al_create_event_queue();//Função que cria fila de eventos
     if (!fila_eventos){
         mensagem_de_erro("Erro no carregamento da fila de eventos");
@@ -76,6 +82,20 @@ int main(){
         mensagem_de_erro("Erro ao atribuir cursor ao sistema");
         return -1;
     }
+
+    area_iniciar = al_create_bitmap(LARGURA_TELA / 4, ALTURA_TELA / 4);
+    if (!area_iniciar){
+        mensagem_de_erro("Erro ao definir area iniciar");
+        return -1;
+    }
+
+    // Dizemos que vamos tratar os eventos vindos do mouse
+    al_register_event_source(fila_eventos, al_get_mouse_event_source());
+
+    int na_area_iniciar = 0;
+    //ESTOU AQUI
+
+
 
     desenha_imagem(tela_inicial);
 
