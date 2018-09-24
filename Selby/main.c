@@ -1,109 +1,145 @@
-#include <stdio.h>
-#include <stdlib.h>
-
 #include <allegro5/allegro.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_image.h>
-#include <allegro5/allegro_native_dialog.h>
+#include <stdio.h>
+#include <stdbool.h>
 
-const int LARGURA_TELA = 1281;
-const int ALTURA_TELA = 721;
+const int LARGURA_TELA = 1280;
+const int ALTURA_TELA = 720;
 
-void mensagem_de_erro(char *text){
-	al_show_native_message_box(NULL,"ERRO","Ocorreu o seguinte erro e o programa sera finalizado:",
-		text,NULL,ALLEGRO_MESSAGEBOX_ERROR);
+ALLEGRO_DISPLAY *janela = NULL;
+ALLEGRO_EVENT_QUEUE *fila_eventos = NULL;
+ALLEGRO_BITMAP *imagem, *tela , *menu= NULL;
+ALLEGRO_FONT *fonte = NULL;
+
+
+bool inicializar(){
+    if (!al_init())
+    {
+        fprintf(stderr, "Falha ao inicializar a Allegro.\n");
+        return false;
+    }
+
+    al_init_font_addon();
+
+    if (!al_init_ttf_addon())
+    {
+        fprintf(stderr, "Falha ao inicializar add-on allegro_ttf.\n");
+        return false;
+    }
+
+    if (!al_init_image_addon())
+    {
+        fprintf(stderr, "Falha ao inicializar add-on allegro_image.\n");
+        return false;
+    }
+
+    if (!al_install_keyboard())
+    {
+        fprintf(stderr, "Falha ao inicializar o teclado.\n");
+        return false;
+    }
+
+    janela = al_create_display(LARGURA_TELA, ALTURA_TELA);
+    if (!janela)
+    {
+        fprintf(stderr, "Falha ao criar janela.\n");
+        return false;
+    }
+
+    al_set_window_title(janela, "Utilizando o Teclado");
+
+    fonte = al_load_font("res/font/comic.ttf", 72, 0);
+    if (!fonte)
+    {
+        fprintf(stderr, "Falha ao carregar \"fonte comic.ttf\".\n");
+        al_destroy_display(janela);
+        return false;
+    }
+
+    fila_eventos = al_create_event_queue();
+    if (!fila_eventos)
+    {
+        fprintf(stderr, "Falha ao criar fila de eventos.\n");
+        al_destroy_display(janela);
+        return false;
+    }
+
+
+    al_register_event_source(fila_eventos, al_get_keyboard_event_source());
+    al_register_event_source(fila_eventos, al_get_display_event_source(janela));
+
+    return true;
 }
 
-void desenha_imagem(ALLEGRO_BITMAP *imagem){
-    al_draw_bitmap(imagem,0, 0, 0); //Desenha imagem na tela
-    al_flip_display(); //Atualiza o que está sendo mostrado na tea
+int carrega_imagem(char *caminho){
+    ALLEGRO_BITMAP *imagem = NULL;
+    imagem = al_load_bitmap(caminho);
+    if (!imagem){
+        fprintf(stderr, "Falha ao carregar imagem.\n");
+        return false;
     }
-
-void titulo_da_janela(ALLEGRO_DISPLAY *janela){
-    al_set_window_title(janela, "SelbySpace");
+    return imagem;
 }
 
+bool inicializar();
 
 
-int main(){
+int main(void)
+{
+    bool sair = false;//Iniciei a variavel sair como false..
+    int tecla = 0;
 
-    //VARIAVEIS
-    ALLEGRO_DISPLAY *janela = NULL; //VAriavel tipo ALLEGRO_DISPLAY Representando Janela
-    ALLEGRO_BITMAP *tela_inicial, *tela_X = NULL, *area_iniciar = 0; //Variavel tipo ALLEGRO_BITMAP Representando a imagem atual da tela
-    ALLEGRO_EVENT_QUEUE *fila_eventos = NULL; //Variavel tipo ALLEGRO_EVENT_QUEUE para fila de eventos
-    ALLEGRO_EVENT *evento = NULL;
-    int sair = 0; //Variavel para o loop
-
-    //INICIALIZAÇÔES
-    if (!al_init()){//Função que inicializa a lib allegro5
-        mensagem_de_erro("Erro de inicialização do Allegro");
+    if (!inicializar()){ //Verifica se tudo iniciou certo
         return -1;
     }
 
-    if (!al_init_image_addon()){
-        mensagem_de_erro("Erro de inicialização do Image Add-on");
-        return -1;
+    menu = carrega_imagem("res/img/Menu.png");
+    al_draw_bitmap(menu, 0, 0, 0); // Desenha o menu na tela
+
+    while (!sair)
+    {
+        while(!al_is_event_queue_empty(fila_eventos))
+        {
+            ALLEGRO_EVENT evento;
+            al_wait_for_event(fila_eventos, &evento);
+
+            if (evento.type == ALLEGRO_EVENT_KEY_DOWN)
+            {
+                switch(evento.keyboard.keycode)
+                {
+                case ALLEGRO_KEY_SPACE:
+                    tecla = 1;
+                    break;
+                }
+            }
+            else if (evento.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+            {
+                sair = true;
+            }
+        }
+
+        if (tecla)
+        {
+            al_draw_bitmap(imagem, 0, 0, 0);
+
+            switch (tecla)
+            {
+            case 1:
+
+                al_draw_bitmap(tela, 0, 0, 0);
+                break;
+            }
+
+            tecla = 0;
+        }
+
+        al_flip_display();
     }
 
-    janela = al_create_display(LARGURA_TELA,ALTURA_TELA); //Função que cria o display com os parametros de tamanho em px
-    if (!janela){
-        mensagem_de_erro("Erro na inicialização do display");
-        return -1;
-    }
-
-
-    titulo_da_janela(janela); //Função que define o titulo da janela
-
-
-    tela_inicial = al_load_bitmap("res/img/Menu.png");//Função que carrega imagem para variavel
-    if (!tela_inicial){
-    mensagem_de_erro("Erro no carregamento da tela_inicial");
-    return -1;
-    }
-
-    botao_sair = al_create_bitmap(100, 50);
-    if (!botao_sair){
-        mensagem_de_erro("Erro no carregamento da tela_inicial");
-        return -1;
-    }
-
-    fila_eventos = al_create_event_queue();//Função que cria fila de eventos
-    if (!fila_eventos){
-        mensagem_de_erro("Erro no carregamento da fila de eventos");
-        return -1;
-    }
-
-    if (!al_install_mouse()){//Função que instala a funcionalidade de Mouse
-    mensagem_de_erro("Erro ao instalar mouse.");
-    return -1;
-    }
-
-    // Atribui o cursor padrão do sistema para ser usado
-    if (!al_set_system_mouse_cursor(janela, ALLEGRO_SYSTEM_MOUSE_CURSOR_DEFAULT)){
-        mensagem_de_erro("Erro ao atribuir cursor ao sistema");
-        return -1;
-    }
-
-    area_iniciar = al_create_bitmap(LARGURA_TELA / 4, ALTURA_TELA / 4);
-    if (!area_iniciar){
-        mensagem_de_erro("Erro ao definir area iniciar");
-        return -1;
-    }
-
-    // Dizemos que vamos tratar os eventos vindos do mouse
-    al_register_event_source(fila_eventos, al_get_mouse_event_source());
-
-    int na_area_iniciar = 0;
-    //ESTOU AQUI
-
-
-
-    desenha_imagem(tela_inicial);
-
-
-     //**neste lugar colocar evento "clique no inicio**"
-    al_rest(3.0); //Função que segura a execução por determinado tempo
-
-
+    al_destroy_display(janela);
+    al_destroy_event_queue(fila_eventos);
 
     return 0;
 }
