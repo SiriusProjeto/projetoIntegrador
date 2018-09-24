@@ -10,7 +10,7 @@ const int ALTURA_TELA = 720;
 
 ALLEGRO_DISPLAY *janela = NULL;
 ALLEGRO_EVENT_QUEUE *fila_eventos = NULL;
-ALLEGRO_BITMAP *tela_inicio, *tela , *menu= NULL;
+ALLEGRO_BITMAP *tela_inicio, *tela , *teste= NULL;
 ALLEGRO_FONT *fonte = NULL;
 
 
@@ -94,7 +94,7 @@ int main(void){
     while (!sair){
         while(!al_is_event_queue_empty(fila_eventos)){
             ALLEGRO_EVENT evento; //Declaração  do evento
-            al_wait_for_event(fila_eventos, &evento);// Espera evento na pila de eventos e inclui na var eventos
+            al_wait_for_event(fila_eventos, &evento);// Espera evento na fila de eventos e inclui na var eventos
 
             if (evento.type == ALLEGRO_EVENT_KEY_DOWN){ // se o tipo do evento for press no teclado
                 switch(evento.keyboard.keycode){ // da um switch no evento, para saber oque foi informado
@@ -103,7 +103,7 @@ int main(void){
                     break;
                 }
             }
-            else if (evento.type == ALLEGRO_EVENT_DISPLAY_CLOSE){ // se houver o clique no "x"
+            else if (evento.type == ALLEGRO_EVENT_DISPLAY_CLOSE){ // se houver o clique no "x" (Fechar janela)
                 sair = true;
             }
         }
@@ -113,7 +113,6 @@ int main(void){
             case 1:
                 al_destroy_bitmap(tela_inicio);// Destroi a tela de inicio
                 al_draw_bitmap(tela, 0, 0, 0);//desenha a tela seguinte
-                al_flip_display();//Aualiza display
                 break;
             }
 
