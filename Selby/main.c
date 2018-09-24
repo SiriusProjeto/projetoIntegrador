@@ -15,54 +15,58 @@ ALLEGRO_FONT *fonte = NULL;
 
 
 bool inicializar(){
-    if (!al_init())
-    {
+    if (!al_init()){
         fprintf(stderr, "Falha ao inicializar a Allegro.\n");
         return false;
     }
 
     al_init_font_addon();
-
-    if (!al_init_ttf_addon())
-    {
+    if (!al_init_ttf_addon()){
         fprintf(stderr, "Falha ao inicializar add-on allegro_ttf.\n");
         return false;
     }
 
-    if (!al_init_image_addon())
-    {
+    if (!al_init_image_addon()){
         fprintf(stderr, "Falha ao inicializar add-on allegro_image.\n");
         return false;
     }
 
-    if (!al_install_keyboard())
-    {
+    if (!al_install_keyboard()){
         fprintf(stderr, "Falha ao inicializar o teclado.\n");
         return false;
     }
 
     janela = al_create_display(LARGURA_TELA, ALTURA_TELA);
-    if (!janela)
-    {
+    if (!janela){
         fprintf(stderr, "Falha ao criar janela.\n");
         return false;
     }
 
-    al_set_window_title(janela, "Utilizando o Teclado");
+    al_set_window_title(janela, "Selby Space");
 
     fonte = al_load_font("res/font/comic.ttf", 72, 0);
-    if (!fonte)
-    {
+    if (!fonte){
         fprintf(stderr, "Falha ao carregar \"fonte comic.ttf\".\n");
         al_destroy_display(janela);
         return false;
     }
 
     fila_eventos = al_create_event_queue();
-    if (!fila_eventos)
-    {
+    if (!fila_eventos){
         fprintf(stderr, "Falha ao criar fila de eventos.\n");
         al_destroy_display(janela);
+        return false;
+    }
+
+    imagem = al_load_bitmap("res/img/inicio.png");
+    if (!imagem){
+        fprintf(stderr, "Falha ao carregar imagem.\n");
+        return false;
+    }
+
+    tela = al_load_bitmap("res/img/fundo.png");
+    if (!tela){
+        fprintf(stderr, "Falha ao carregar tela.\n");
         return false;
     }
 
@@ -73,21 +77,11 @@ bool inicializar(){
     return true;
 }
 
-int carrega_imagem(char *caminho){
-    ALLEGRO_BITMAP *imagem = NULL;
-    imagem = al_load_bitmap(caminho);
-    if (!imagem){
-        fprintf(stderr, "Falha ao carregar imagem.\n");
-        return false;
-    }
-    return imagem;
-}
 
 bool inicializar();
 
 
-int main(void)
-{
+int main(void){
     bool sair = false;//Iniciei a variavel sair como false..
     int tecla = 0;
 
@@ -95,39 +89,32 @@ int main(void)
         return -1;
     }
 
-    menu = carrega_imagem("res/img/Menu.png");
-    al_draw_bitmap(menu, 0, 0, 0); // Desenha o menu na tela
+    al_draw_bitmap(imagem, 0, 0, 0); // Desenha o menu na tela
 
-    while (!sair)
-    {
-        while(!al_is_event_queue_empty(fila_eventos))
-        {
-            ALLEGRO_EVENT evento;
-            al_wait_for_event(fila_eventos, &evento);
+    while (!sair){
+        while(!al_is_event_queue_empty(fila_eventos)){
+            ALLEGRO_EVENT evento; //Declaração  do evento
+            al_wait_for_event(fila_eventos, &evento);// Espera evento na pila de eventos e inclui na var eventos
 
-            if (evento.type == ALLEGRO_EVENT_KEY_DOWN)
-            {
-                switch(evento.keyboard.keycode)
-                {
-                case ALLEGRO_KEY_SPACE:
+            if (evento.type == ALLEGRO_EVENT_KEY_DOWN){ // se o tipo do evento for press no teclado
+                switch(evento.keyboard.keycode){ // da um switch no evento, para saber oque foi informado
+                case ALLEGRO_KEY_SPACE: //Caso o usuario informe SPACE
                     tecla = 1;
                     break;
                 }
             }
-            else if (evento.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-            {
+            else if (evento.type == ALLEGRO_EVENT_DISPLAY_CLOSE){ // se houver o clique no "x"
                 sair = true;
             }
         }
 
-        if (tecla)
-        {
+        if (tecla){
             al_draw_bitmap(imagem, 0, 0, 0);
 
-            switch (tecla)
-            {
+            switch (tecla){
             case 1:
-
+                al_destroy_bitmap(imagem);
+                al_flip_display();
                 al_draw_bitmap(tela, 0, 0, 0);
                 break;
             }
@@ -138,8 +125,8 @@ int main(void)
         al_flip_display();
     }
 
-    al_destroy_display(janela);
-    al_destroy_event_queue(fila_eventos);
+    al_destroy_display(janela); // Fecha a janela
+    al_destroy_event_queue(fila_eventos);// Fecha a fila de eventos
 
     return 0;
 }
