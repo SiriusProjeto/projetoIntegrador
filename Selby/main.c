@@ -10,7 +10,7 @@ const int ALTURA_TELA = 720;
 
 ALLEGRO_DISPLAY *janela = NULL;
 ALLEGRO_EVENT_QUEUE *fila_eventos = NULL;
-ALLEGRO_BITMAP *imagem, *tela , *menu= NULL;
+ALLEGRO_BITMAP *tela_inicio, *tela , *menu= NULL;
 ALLEGRO_FONT *fonte = NULL;
 
 
@@ -58,8 +58,8 @@ bool inicializar(){
         return false;
     }
 
-    imagem = al_load_bitmap("res/img/inicio.png");
-    if (!imagem){
+    tela_inicio = al_load_bitmap("res/img/inicio.png");
+    if (!tela_inicio){
         fprintf(stderr, "Falha ao carregar imagem.\n");
         return false;
     }
@@ -89,7 +89,7 @@ int main(void){
         return -1;
     }
 
-    al_draw_bitmap(imagem, 0, 0, 0); // Desenha o menu na tela
+    al_draw_bitmap(tela_inicio, 0, 0, 0); // Desenha o menu na tela
 
     while (!sair){
         while(!al_is_event_queue_empty(fila_eventos)){
@@ -109,11 +109,9 @@ int main(void){
         }
 
         if (tecla){
-            al_draw_bitmap(imagem, 0, 0, 0);//Desenha tela de inicio
-
             switch (tecla){ //Caso tenha digitado space
             case 1:
-                al_destroy_bitmap(imagem);// Destroi a tela de inicio
+                al_destroy_bitmap(tela_inicio);// Destroi a tela de inicio
                 al_draw_bitmap(tela, 0, 0, 0);//desenha a tela seguinte
                 al_flip_display();//Aualiza display
                 break;
