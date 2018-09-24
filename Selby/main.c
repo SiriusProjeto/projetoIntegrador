@@ -109,13 +109,13 @@ int main(void){
         }
 
         if (tecla){
-            al_draw_bitmap(imagem, 0, 0, 0);
+            al_draw_bitmap(imagem, 0, 0, 0);//Desenha tela de inicio
 
-            switch (tecla){
+            switch (tecla){ //Caso tenha digitado space
             case 1:
-                al_destroy_bitmap(imagem);
-                al_flip_display();
-                al_draw_bitmap(tela, 0, 0, 0);
+                al_destroy_bitmap(imagem);// Destroi a tela de inicio
+                al_draw_bitmap(tela, 0, 0, 0);//desenha a tela seguinte
+                al_flip_display();//Aualiza display
                 break;
             }
 
