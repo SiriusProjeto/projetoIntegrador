@@ -23,11 +23,14 @@ bool inicializar(){
     al_init_font_addon();
     if (!al_init_ttf_addon()){
         fprintf(stderr, "Falha ao inicializar add-on allegro_ttf.\n");
+        al_destroy_font();
         return false;
     }
 
     if (!al_init_image_addon()){
         fprintf(stderr, "Falha ao inicializar add-on allegro_image.\n");
+        al_destroy_font();
+        al_destroy_bitmap();
         return false;
     }
 
