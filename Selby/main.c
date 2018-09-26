@@ -2,6 +2,7 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_image.h>
+#include <allegro5/allegro_primitives.h>
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -20,24 +21,55 @@ bool inicializar(){
         return false;
     }
 
+    if (!al_init_primitives_addon()) {
+        fprintf(stderr, "Falha ao iniciar primitives_addon\n");
+        return false;
+    }
+
     al_init_font_addon();
     if (!al_init_ttf_addon()){
         fprintf(stderr, "Falha ao inicializar add-on allegro_ttf.\n");
-        al_destroy_font();
+        al_shutdown_primitives_addon();
         return false;
     }
 
     if (!al_init_image_addon()){
         fprintf(stderr, "Falha ao inicializar add-on allegro_image.\n");
-        al_destroy_font();
-        al_destroy_bitmap();
+        al_shutdown_ttf_addon();
+        al_shutdown_font_addon()
+        al_shutdown_primitives_addon();
         return false;
     }
 
-    if (!al_install_keyboard()){
-        fprintf(stderr, "Falha ao inicializar o teclado.\n");
-        return false;
+    if (!al_install_audio()) {
+        fprintf(stderr, "Falha ao iniciar audio\n");
+        al_shutdown_image_addon();
+        al_shutdown_ttf_addon();
+        al_shutdown_font_addon();
+        al_shutdown_primitives_addon();
+        return -1;
     }
+
+    if(!al_init_acodec_addon()) {
+        fprintf(stderr, "al_init_acodec_addon\n");
+        al_uninstall_audio();
+        al_shutdown_image_addon();
+        al_shutdown_ttf_addon();
+        al_shutdown_font_addon();
+        al_shutdown_primitives_addon();
+        return -1;
+    }
+
+        if (!al_install_mouse()) {
+        fprintf(stderr, "al_install_mouse\n");
+        al_uninstall_audio();
+        al_shutdown_image_addon();
+        al_shutdown_ttf_addon();
+        al_shutdown_font_addon();
+        al_shutdown_primitives_addon();
+        return -1;
+    }
+
 
     janela = al_create_display(LARGURA_TELA, ALTURA_TELA);
     if (!janela){
@@ -70,6 +102,12 @@ bool inicializar(){
     tela = al_load_bitmap("res/img/fundo.png");
     if (!tela){
         fprintf(stderr, "Falha ao carregar tela.\n");
+        return false;
+    }
+
+    if (!al_install_keyboard()){
+        fprintf(stderr, "Falha ao inicializar o teclado.\n");
+        al_dest
         return false;
     }
 
