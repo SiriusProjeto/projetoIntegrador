@@ -205,15 +205,30 @@ int main(void){
             ALLEGRO_EVENT evento; //Declaração  do evento
             al_wait_for_event(fila_eventos, &evento);// Espera evento na fila de eventos e inclui na var eventos
 
+
+            //Parte da tela inicial
+            //Captura tecla
             if (evento.type == ALLEGRO_EVENT_KEY_DOWN){ // se o tipo do evento for press no teclado
                 switch(evento.keyboard.keycode){ // da um switch no evento, para saber oque foi informado
                 case ALLEGRO_KEY_SPACE: //Caso o usuario informe SPACE
                     tecla = 1;
                     break;
+                case ALLEGRO_KEY_ESCAPE:
+                    sair = true;
+                    break;
                 }
-            }
-            else if (evento.type == ALLEGRO_EVENT_DISPLAY_CLOSE){ // se houver o clique no "x" (Fechar janela)
+            } else if (evento.type == ALLEGRO_EVENT_DISPLAY_CLOSE){ // se houver o clique no "x" (Fechar janela)
                 sair = true;
+            }
+
+            if (tecla){
+                switch (tecla){ //Caso tenha digitado space
+                case 1:
+                    al_destroy_bitmap(tela_inicio);// Destroi a tela de inicio
+                    al_draw_bitmap(boas_vindas, 0, 0, 0);//desenha a tela seguinte
+                    break;
+                }
+                tecla = 0;
             }
         }
 
@@ -223,6 +238,7 @@ int main(void){
                 al_destroy_bitmap(tela_inicio);// Destroi a tela de inicio
                 al_draw_bitmap(boas_vindas, 0, 0, 0);//desenha a tela seguinte
                 break;
+
             }
 
             tecla = 0;
