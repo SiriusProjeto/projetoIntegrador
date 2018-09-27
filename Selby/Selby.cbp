@@ -36,6 +36,8 @@
 			<Add option="-lallegro_image -lallegro" />
 			<Add option="-lallegro -lallegro_dialog" />
 			<Add option="-lallegro_ttf -lallegro_font -lallegro" />
+			<Add option="-lallegro -lallegro_primitives" />
+			<Add option="-lallegro -lallegro_audio -lallegro_acodec" />
 		</Linker>
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />

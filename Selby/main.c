@@ -13,6 +13,7 @@ ALLEGRO_DISPLAY *janela = NULL;
 ALLEGRO_EVENT_QUEUE *fila_eventos = NULL;
 ALLEGRO_BITMAP *tela_inicio, *boas_vindas , *teste= NULL;
 ALLEGRO_FONT *fonte = NULL;
+ALLEGRO_COLOR *cor_fonte_principal = NULL;
 
 
 bool inicializar(){
@@ -198,6 +199,9 @@ int main(void){
         return -1;
     }
 
+
+    cor_fonte_principal = al_
+
     al_draw_bitmap(tela_inicio, 0, 0, 0); // Desenha o menu na tela
 
     while (!sair){
@@ -222,17 +226,19 @@ int main(void){
             }
 
             if (tecla){
-                switch (tecla){ //Caso tenha digitado space
-                case 1:
+                switch (tecla){
+                case 1://Caso tenha digitado space
                     al_destroy_bitmap(tela_inicio);// Destroi a tela de inicio
                     al_draw_bitmap(boas_vindas, 0, 0, 0);//desenha a tela seguinte
                     char *texto = "Bem Vindo ao SelbySpace";
-                    al_draw_text(fonte, al_map_rgb(12, 9, 222), LARGURA_TELA / 2, ALTURA_TELA/5, ALLEGRO_ALIGN_CENTRE, texto);
+                    //al_draw_text(fonte, al_c, LARGURA_TELA / 2, ALTURA_TELA / 25, ALLEGRO_ALIGN_CENTRE, texto);
+                    al_draw_text
                     break;
                 }
                 tecla = 0;
             }
         }
+
 
 
         al_flip_display();
