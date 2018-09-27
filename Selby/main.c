@@ -11,7 +11,7 @@ const int ALTURA_TELA = 720;
 
 ALLEGRO_DISPLAY *janela = NULL;
 ALLEGRO_EVENT_QUEUE *fila_eventos = NULL;
-ALLEGRO_BITMAP *tela_inicio, *tela , *teste= NULL;
+ALLEGRO_BITMAP *tela_inicio, *boas_vindas , *teste= NULL;
 ALLEGRO_FONT *fonte = NULL;
 
 
@@ -36,7 +36,7 @@ bool inicializar(){
     if (!al_init_image_addon()){
         fprintf(stderr, "Falha ao inicializar add-on allegro_image.\n");
         al_shutdown_ttf_addon();
-        al_shutdown_font_addon()
+        al_shutdown_font_addon();
         al_shutdown_primitives_addon();
         return false;
     }
@@ -47,7 +47,7 @@ bool inicializar(){
         al_shutdown_ttf_addon();
         al_shutdown_font_addon();
         al_shutdown_primitives_addon();
-        return -1;
+        return false;
     }
 
     if(!al_init_acodec_addon()) {
@@ -57,7 +57,7 @@ bool inicializar(){
         al_shutdown_ttf_addon();
         al_shutdown_font_addon();
         al_shutdown_primitives_addon();
-        return -1;
+        return false;
     }
 
         if (!al_install_mouse()) {
@@ -67,13 +67,19 @@ bool inicializar(){
         al_shutdown_ttf_addon();
         al_shutdown_font_addon();
         al_shutdown_primitives_addon();
-        return -1;
+        return false;
     }
 
 
     janela = al_create_display(LARGURA_TELA, ALTURA_TELA);
     if (!janela){
         fprintf(stderr, "Falha ao criar janela.\n");
+        al_uninstall_mouse();
+        al_uninstall_audio();
+        al_shutdown_image_addon();
+        al_shutdown_ttf_addon();
+        al_shutdown_font_addon();
+        al_shutdown_primitives_addon();
         return false;
     }
 
@@ -83,31 +89,73 @@ bool inicializar(){
     if (!fonte){
         fprintf(stderr, "Falha ao carregar \"fonte comic.ttf\".\n");
         al_destroy_display(janela);
+        al_uninstall_mouse();
+        al_uninstall_audio();
+        al_shutdown_image_addon();
+        al_shutdown_ttf_addon();
+        al_shutdown_font_addon();
+        al_shutdown_primitives_addon();
         return false;
     }
 
     fila_eventos = al_create_event_queue();
     if (!fila_eventos){
         fprintf(stderr, "Falha ao criar fila de eventos.\n");
+        al_destroy_font(fonte);
         al_destroy_display(janela);
+        al_uninstall_mouse();
+        al_uninstall_audio();
+        al_shutdown_image_addon();
+        al_shutdown_ttf_addon();
+        al_shutdown_font_addon();
+        al_shutdown_primitives_addon();
         return false;
     }
 
     tela_inicio = al_load_bitmap("res/img/inicio.png");
     if (!tela_inicio){
         fprintf(stderr, "Falha ao carregar imagem.\n");
+        al_destroy_event_queue(fila_eventos);
+        al_destroy_font(fonte);
+        al_destroy_display(janela);
+        al_uninstall_mouse();
+        al_uninstall_audio();
+        al_shutdown_image_addon();
+        al_shutdown_ttf_addon();
+        al_shutdown_font_addon();
+        al_shutdown_primitives_addon();
         return false;
     }
 
-    tela = al_load_bitmap("res/img/fundo.png");
-    if (!tela){
+    boas_vindas = al_load_bitmap("res/img/fundo.png");
+    if (!boas_vindas){
         fprintf(stderr, "Falha ao carregar tela.\n");
+        al_destroy_bitmap(tela_inicio);
+        al_destroy_event_queue(fila_eventos);
+        al_destroy_font(fonte);
+        al_destroy_display(janela);
+        al_uninstall_mouse();
+        al_uninstall_audio();
+        al_shutdown_image_addon();
+        al_shutdown_ttf_addon();
+        al_shutdown_font_addon();
+        al_shutdown_primitives_addon();
         return false;
     }
 
     if (!al_install_keyboard()){
         fprintf(stderr, "Falha ao inicializar o teclado.\n");
-        al_dest
+        al_destroy_bitmap(boas_vindas);
+        al_destroy_bitmap(tela_inicio);
+        al_destroy_event_queue(fila_eventos);
+        al_destroy_font(fonte);
+        al_destroy_display(janela);
+        al_uninstall_mouse();
+        al_uninstall_audio();
+        al_shutdown_image_addon();
+        al_shutdown_ttf_addon();
+        al_shutdown_font_addon();
+        al_shutdown_primitives_addon();
         return false;
     }
 
@@ -118,6 +166,26 @@ bool inicializar(){
     return true;
 }
 
+bool start_ok(){
+    if (inicializar()){
+        return true;
+    } else {
+        al_uninstall_keyboard();
+        al_destroy_bitmap(boas_vindas);
+        al_destroy_bitmap(tela_inicio);
+        al_destroy_event_queue(fila_eventos);
+        al_destroy_font(fonte);
+        al_destroy_display(janela);
+        al_uninstall_mouse();
+        al_uninstall_audio();
+        al_shutdown_image_addon();
+        al_shutdown_ttf_addon();
+        al_shutdown_font_addon();
+        al_shutdown_primitives_addon();
+        return false;
+    }
+}
+
 
 bool inicializar();
 
@@ -126,7 +194,7 @@ int main(void){
     bool sair = false;//Iniciei a variavel sair como false..
     int tecla = 0;
 
-    if (!inicializar()){ //Verifica se tudo iniciou certo
+    if (!start_ok()){ //Verifica se tudo iniciou certo
         return -1;
     }
 
@@ -153,7 +221,7 @@ int main(void){
             switch (tecla){ //Caso tenha digitado space
             case 1:
                 al_destroy_bitmap(tela_inicio);// Destroi a tela de inicio
-                al_draw_bitmap(tela, 0, 0, 0);//desenha a tela seguinte
+                al_draw_bitmap(boas_vindas, 0, 0, 0);//desenha a tela seguinte
                 break;
             }
 
