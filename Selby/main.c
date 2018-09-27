@@ -226,23 +226,14 @@ int main(void){
                 case 1:
                     al_destroy_bitmap(tela_inicio);// Destroi a tela de inicio
                     al_draw_bitmap(boas_vindas, 0, 0, 0);//desenha a tela seguinte
+                    char *texto = "Bem Vindo ao SelbySpace";
+                    al_draw_text(fonte, al_map_rgb(12, 9, 222), LARGURA_TELA / 2, ALTURA_TELA/5, ALLEGRO_ALIGN_CENTRE, texto);
                     break;
                 }
                 tecla = 0;
             }
         }
 
-        if (tecla){
-            switch (tecla){ //Caso tenha digitado space
-            case 1:
-                al_destroy_bitmap(tela_inicio);// Destroi a tela de inicio
-                al_draw_bitmap(boas_vindas, 0, 0, 0);//desenha a tela seguinte
-                break;
-
-            }
-
-            tecla = 0;
-        }
 
         al_flip_display();
     }
