@@ -128,7 +128,7 @@ bool inicializar(){
         return false;
     }
 
-    boas_vindas = al_load_bitmap("res/img/fundo.png");
+    boas_vindas = al_load_bitmap("res/img/boasvindas.jpg");
     if (!boas_vindas){
         fprintf(stderr, "Falha ao carregar tela.\n");
         al_destroy_bitmap(tela_inicio);
@@ -200,7 +200,6 @@ int main(void){
     }
 
 
-    cor_fonte_principal = al_
 
     al_draw_bitmap(tela_inicio, 0, 0, 0); // Desenha o menu na tela
 
@@ -231,8 +230,8 @@ int main(void){
                     al_destroy_bitmap(tela_inicio);// Destroi a tela de inicio
                     al_draw_bitmap(boas_vindas, 0, 0, 0);//desenha a tela seguinte
                     char *texto = "Bem Vindo ao SelbySpace";
-                    //al_draw_text(fonte, al_c, LARGURA_TELA / 2, ALTURA_TELA / 25, ALLEGRO_ALIGN_CENTRE, texto);
-                    al_draw_text
+                    al_draw_text(fonte, al_map_rgb(0,127,255), LARGURA_TELA / 2, ALTURA_TELA / 25, ALLEGRO_ALIGN_CENTRE, texto);
+
                     break;
                 }
                 tecla = 0;
