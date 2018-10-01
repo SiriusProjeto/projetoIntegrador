@@ -11,7 +11,7 @@ const int ALTURA_TELA = 720;
 
 ALLEGRO_DISPLAY *janela = NULL;
 ALLEGRO_EVENT_QUEUE *fila_eventos = NULL;
-ALLEGRO_BITMAP *tela_inicio, *boas_vindas , *teste= NULL;
+ALLEGRO_BITMAP *tela_inicio, *boas_vindas = NULL;
 ALLEGRO_FONT *fonte = NULL;
 ALLEGRO_COLOR *cor_fonte_principal = NULL;
 
@@ -202,11 +202,14 @@ int main(void){
 
 
     al_draw_bitmap(tela_inicio, 0, 0, 0); // Desenha o menu na tela
+    //al_draw_text(fonte, al_map_rgb(0,127,255), 30,30 , ALLEGRO_ALIGN_INTEGER, "(I) Para informaçoes do jogo\n(ESC) para sair");
+
 
     while (!sair){
         while(!al_is_event_queue_empty(fila_eventos)){
             ALLEGRO_EVENT evento; //Declaração  do evento
             al_wait_for_event(fila_eventos, &evento);// Espera evento na fila de eventos e inclui na var eventos
+
 
 
             //Parte da tela inicial
@@ -230,7 +233,7 @@ int main(void){
                     al_destroy_bitmap(tela_inicio);// Destroi a tela de inicio
                     al_draw_bitmap(boas_vindas, 0, 0, 0);//desenha a tela seguinte
                     char *texto = "Bem Vindo ao SelbySpace";
-                    al_draw_text(fonte, al_map_rgb(0,127,255), LARGURA_TELA / 2, ALTURA_TELA / 25, ALLEGRO_ALIGN_CENTRE, texto);
+                    //al_draw_text(fonte, al_map_rgb(0,127,255), LARGURA_TELA / 2, ALTURA_TELA / 25, ALLEGRO_ALIGN_CENTRE, texto);
 
                     break;
                 }
