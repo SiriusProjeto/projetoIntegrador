@@ -188,6 +188,7 @@ bool start_ok(){
 }
 
 
+
 bool inicializar();
 
 
@@ -201,27 +202,21 @@ int main(void){
 
 
 
-    al_draw_bitmap(tela_inicio, 0, 0, 0); // Desenha o menu na tela
+     // Desenha o menu na tela
     //al_draw_text(fonte, al_map_rgb(0,127,255), 30,30 , ALLEGRO_ALIGN_INTEGER, "(I) Para informaçoes do jogo\n(ESC) para sair");
-
-
+    al_draw_bitmap(tela_inicio, 0, 0, 0);
     while (!sair){
         while(!al_is_event_queue_empty(fila_eventos)){
             ALLEGRO_EVENT evento; //Declaração  do evento
             al_wait_for_event(fila_eventos, &evento);// Espera evento na fila de eventos e inclui na var eventos
 
-
-
             //Parte da tela inicial
             //Captura tecla
             if (evento.type == ALLEGRO_EVENT_KEY_DOWN){ // se o tipo do evento for press no teclado
-                switch(evento.keyboard.keycode){ // da um switch no evento, para saber oque foi informado
-                case ALLEGRO_KEY_SPACE: //Caso o usuario informe SPACE
+                if (evento.keyboard.keycode == ALLEGRO_KEY_SPACE){
                     tecla = 1;
-                    break;
-                case ALLEGRO_KEY_ESCAPE:
-                    sair = true;
-                    break;
+                } else if (evento.keyboard.keycode == ALLEGRO_KEY_ESCAPE){
+                    tecla = 2;
                 }
             } else if (evento.type == ALLEGRO_EVENT_DISPLAY_CLOSE){ // se houver o clique no "x" (Fechar janela)
                 sair = true;
@@ -232,8 +227,8 @@ int main(void){
                 case 1://Caso tenha digitado space
                     al_destroy_bitmap(tela_inicio);// Destroi a tela de inicio
                     al_draw_bitmap(boas_vindas, 0, 0, 0);//desenha a tela seguinte
-                    char *texto = "Bem Vindo ao SelbySpace";
-                    //al_draw_text(fonte, al_map_rgb(0,127,255), LARGURA_TELA / 2, ALTURA_TELA / 25, ALLEGRO_ALIGN_CENTRE, texto);
+                    char *texto = "Bem Vindo ao\nSelbySpace";
+                    al_draw_text(fonte, al_map_rgb(255,255,255), 780, 0, ALLEGRO_ALIGN_CENTER, texto);
 
                     break;
                 }
