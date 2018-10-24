@@ -1,10 +1,12 @@
-#include <allegro5/allegro.h>
+﻿#include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
 #include <stdio.h>
 #include <stdbool.h>
+
+#define fontSize 42
 
 const int LARGURA_TELA = 1280;
 const int ALTURA_TELA = 720;
@@ -86,7 +88,7 @@ bool inicializar(){
 
     al_set_window_title(janela, "Selby Space");
 
-    fonte = al_load_font("res/font/comic.ttf", 72, 0);
+    fonte = al_load_font("res/font/comic.ttf", fontSize, 0);
     if (!fonte){
         fprintf(stderr, "Falha ao carregar \"fonte comic.ttf\".\n");
         al_destroy_display(janela);
@@ -128,7 +130,7 @@ bool inicializar(){
         return false;
     }
 
-    boas_vindas = al_load_bitmap("res/img/boasvindas.jpg");
+    boas_vindas = al_load_bitmap("res/img/transicoes_de_tela/boasvindas.jpg");
     if (!boas_vindas){
         fprintf(stderr, "Falha ao carregar tela.\n");
         al_destroy_bitmap(tela_inicio);
@@ -228,7 +230,7 @@ int main(void){
                     al_destroy_bitmap(tela_inicio);// Destroi a tela de inicio
                     al_draw_bitmap(boas_vindas, 0, 0, 0);//desenha a tela seguinte
                     char *texto = "Bem Vindo ao\nSelbySpace";
-                    al_draw_text(fonte, al_map_rgb(255,255,255), 780, 0, ALLEGRO_ALIGN_CENTER, texto);
+                    al_draw_text(fonte, al_map_rgb(255,255,255), 260, 0, ALLEGRO_ALIGN_CENTER, texto);
 
                     break;
                 }
