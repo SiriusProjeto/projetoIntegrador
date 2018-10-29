@@ -208,7 +208,6 @@ bool start_ok(){
 }
 
 void troca_tela(ALLEGRO_BITMAP *img1, ALLEGRO_BITMAP *img2){
-    al_flip_display();
     al_destroy_bitmap(img1);// Destroi a tela de inicio
     al_flip_display();
     al_draw_bitmap(img2, 0, 0, 0);
@@ -225,12 +224,12 @@ int main(void){
     if (!start_ok()){ //Verifica se tudo iniciou certo
         return -1;
     }
-    al_flip_display();
 
 
 
      // Desenha o menu na tela
     //al_draw_text(fonte, al_map_rgb(0,127,255), 30,30 , ALLEGRO_ALIGN_INTEGER, "(I) Para informaçoes do jogo\n(ESC) para sair");
+    al_flip_display();
     al_draw_bitmap(tela_inicio, 0, 0, 0);
     al_flip_display();
     while (!sair){
@@ -262,12 +261,19 @@ int main(void){
             }
 
         }
-
-    al_flip_display();
     }
-
-    al_destroy_display(janela); // Fecha a janela
-    al_destroy_event_queue(fila_eventos);// Fecha a fila de eventos
-
+    al_flip_display();
+    al_uninstall_keyboard();
+    al_destroy_bitmap(boas_vindas);
+    al_destroy_bitmap(tela_inicio);
+    al_destroy_event_queue(fila_eventos);
+    al_destroy_font(fonte);
+    al_destroy_display(janela);
+    al_uninstall_mouse();
+    al_uninstall_audio();
+    al_shutdown_image_addon();
+    al_shutdown_ttf_addon();
+    al_shutdown_font_addon();
+    al_shutdown_primitives_addon();
     return 0;
 }
