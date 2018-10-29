@@ -214,53 +214,50 @@ void troca_tela(ALLEGRO_BITMAP *img1, ALLEGRO_BITMAP *img2){
     al_flip_display();
 }
 
-bool inicializar();
-
 
 int main(void){
-    bool sair = false;//Iniciei a variavel sair como false..
+    bool inicializar();
+
+    bool sair = false;
+    bool concluido = false;
     int tecla = 0;
 
-    if (!start_ok()){ //Verifica se tudo iniciou certo
-        return -1;
-    }
 
-
-
-     // Desenha o menu na tela
-    //al_draw_text(fonte, al_map_rgb(0,127,255), 30,30 , ALLEGRO_ALIGN_INTEGER, "(I) Para informaçoes do jogo\n(ESC) para sair");
+    // Desenha Tela de inicio
     al_flip_display();
     al_draw_bitmap(tela_inicio, 0, 0, 0);
     al_flip_display();
+
     while (!sair){
         while(!al_is_event_queue_empty(fila_eventos)){
-            ALLEGRO_EVENT evento; //Declaração  do evento
-            al_wait_for_event(fila_eventos, &evento);// Espera evento na fila de eventos e inclui na var eventos
+            ALLEGRO_EVENT evento;
+            al_wait_for_event(fila_eventos, &evento);
 
-            //Parte da tela inicial
-            //Captura tecla
-            if (evento.type == ALLEGRO_EVENT_KEY_DOWN){ // se o tipo do evento for press no teclado
+
+
+            if (evento.type == ALLEGRO_EVENT_KEY_DOWN){
                 if (evento.keyboard.keycode == ALLEGRO_KEY_SPACE){
                     tecla = 1;
                 } else if (evento.keyboard.keycode == ALLEGRO_KEY_ESCAPE){
                     tecla = 2;
                 }
-            } else if (evento.type == ALLEGRO_EVENT_DISPLAY_CLOSE){ // se houver o clique no "x" (Fechar janela)
+            }
+            if (evento.type == ALLEGRO_EVENT_DISPLAY_CLOSE){ // se houver o clique no "x" (Fechar janela)
                 sair = true;
             }
 
-            if (tecla){
-                switch (tecla){
-                case 1://Caso tenha digitado space
-                    troca_tela(tela_inicio, boas_vindas[1]);//desenha a tela seguinte
-                    //char *texto = "Bem Vindo ao\nSelbySpace";
-                    //al_draw_text(fonte, al_map_rgb(255,255,255), 260, 0, ALLEGRO_ALIGN_CENTER, texto);
-                    break;
-                }
-                tecla = 0;
+            switch (tecla){
+            case 1://Caso tenha digitado space
+                troca_tela(tela_inicio, boas_vindas[1]);//desenha a tela seguinte
+                //char *texto = "Bem Vindo ao\nSelbySpace";
+                //al_draw_text(fonte, al_map_rgb(255,255,255), 260, 0, ALLEGRO_ALIGN_CENTER, texto);
+                break;
             }
-
+            tecla = 0;
         }
+        if (evento.type == ALLEGRO_EVENT_DISPLAY_CLOSE){ // se houver o clique no "x" (Fechar janela)
+                sair = true;
+            }
     }
     al_flip_display();
     al_uninstall_keyboard();
