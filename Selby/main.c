@@ -255,22 +255,12 @@ int main(void){
             }
             tecla = 0;
         }
+        ALLEGRO_EVENT evento;
+        al_wait_for_event(fila_eventos, &evento);
         if (evento.type == ALLEGRO_EVENT_DISPLAY_CLOSE){ // se houver o clique no "x" (Fechar janela)
                 sair = true;
             }
     }
-    al_flip_display();
-    al_uninstall_keyboard();
-    al_destroy_bitmap(boas_vindas);
-    al_destroy_bitmap(tela_inicio);
-    al_destroy_event_queue(fila_eventos);
-    al_destroy_font(fonte);
-    al_destroy_display(janela);
-    al_uninstall_mouse();
-    al_uninstall_audio();
-    al_shutdown_image_addon();
-    al_shutdown_ttf_addon();
-    al_shutdown_font_addon();
-    al_shutdown_primitives_addon();
+
     return 0;
 }
