@@ -13,7 +13,8 @@ const int ALTURA_TELA = 720;
 
 ALLEGRO_DISPLAY *janela = NULL;
 ALLEGRO_EVENT_QUEUE *fila_eventos = NULL;
-ALLEGRO_BITMAP *tela_inicio, *boas_vindas = NULL;
+ALLEGRO_BITMAP *tela_inicio = NULL;
+ALLEGRO_BITMAP *boas_vindas[2] = {NULL, NULL};
 ALLEGRO_FONT *fonte = NULL;
 ALLEGRO_COLOR *cor_fonte_principal = NULL;
 
@@ -115,7 +116,7 @@ bool inicializar(){
         return false;
     }
 
-    tela_inicio = al_load_bitmap("res/img/inicio.png");
+    tela_inicio = al_load_bitmap("res/img/inicio/menuIniciar.jpg");
     if (!tela_inicio){
         fprintf(stderr, "Falha ao carregar imagem.\n");
         al_destroy_event_queue(fila_eventos);
@@ -130,9 +131,26 @@ bool inicializar(){
         return false;
     }
 
-    boas_vindas = al_load_bitmap("res/img/transicoes_de_tela/boasvindas.jpg");
-    if (!boas_vindas){
+    boas_vindas[1] = al_load_bitmap("res/img/transicoes_de_tela/boasvindas.jpg");
+    if (!boas_vindas[1]){
         fprintf(stderr, "Falha ao carregar tela.\n");
+        al_destroy_bitmap(tela_inicio);
+        al_destroy_event_queue(fila_eventos);
+        al_destroy_font(fonte);
+        al_destroy_display(janela);
+        al_uninstall_mouse();
+        al_uninstall_audio();
+        al_shutdown_image_addon();
+        al_shutdown_ttf_addon();
+        al_shutdown_font_addon();
+        al_shutdown_primitives_addon();
+        return false;
+    }
+
+    boas_vindas[2] = al_load_bitmap("res/img/transicoes_de_tela/boasvindas2.jpg");
+    if (!boas_vindas[2]){
+        fprintf(stderr, "Falha ao carregar tela.\n");
+        al_destroy_bitmap(boas_vindas);
         al_destroy_bitmap(tela_inicio);
         al_destroy_event_queue(fila_eventos);
         al_destroy_font(fonte);
@@ -189,7 +207,13 @@ bool start_ok(){
     }
 }
 
-
+void troca_tela(ALLEGRO_BITMAP *img1, ALLEGRO_BITMAP *img2){
+    al_flip_display();
+    al_destroy_bitmap(img1);// Destroi a tela de inicio
+    al_flip_display();
+    al_draw_bitmap(img2, 0, 0, 0);
+    al_flip_display();
+}
 
 bool inicializar();
 
@@ -201,12 +225,14 @@ int main(void){
     if (!start_ok()){ //Verifica se tudo iniciou certo
         return -1;
     }
+    al_flip_display();
 
 
 
      // Desenha o menu na tela
     //al_draw_text(fonte, al_map_rgb(0,127,255), 30,30 , ALLEGRO_ALIGN_INTEGER, "(I) Para informaçoes do jogo\n(ESC) para sair");
     al_draw_bitmap(tela_inicio, 0, 0, 0);
+    al_flip_display();
     while (!sair){
         while(!al_is_event_queue_empty(fila_eventos)){
             ALLEGRO_EVENT evento; //Declaração  do evento
@@ -227,20 +253,17 @@ int main(void){
             if (tecla){
                 switch (tecla){
                 case 1://Caso tenha digitado space
-                    al_destroy_bitmap(tela_inicio);// Destroi a tela de inicio
-                    al_draw_bitmap(boas_vindas, 0, 0, 0);//desenha a tela seguinte
-                    char *texto = "Bem Vindo ao\nSelbySpace";
-                    al_draw_text(fonte, al_map_rgb(255,255,255), 260, 0, ALLEGRO_ALIGN_CENTER, texto);
-
+                    troca_tela(tela_inicio, boas_vindas[1]);//desenha a tela seguinte
+                    //char *texto = "Bem Vindo ao\nSelbySpace";
+                    //al_draw_text(fonte, al_map_rgb(255,255,255), 260, 0, ALLEGRO_ALIGN_CENTER, texto);
                     break;
                 }
                 tecla = 0;
             }
+
         }
 
-
-
-        al_flip_display();
+    al_flip_display();
     }
 
     al_destroy_display(janela); // Fecha a janela
