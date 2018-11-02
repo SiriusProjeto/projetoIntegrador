@@ -19,11 +19,21 @@
 	<allegro5/allegro.h>
 	<stdio.h>
 
-1540842043 source:/home/freitas/Documentos/projetoIntegrador/Selby/main.c
+1541186898 source:/home/freitas/Documentos/projetoIntegrador/Selby/main.c
+	"definicoes.h"
+	"variaveis.h"
+	"funcoes_basicas.h"
+
+1541185901 /home/freitas/Documentos/projetoIntegrador/Selby/definicoes.h
+	<allegro5/allegro.h>
 	<allegro5/allegro_font.h>
 	<allegro5/allegro_ttf.h>
 	<allegro5/allegro_image.h>
 	<allegro5/allegro_primitives.h>
 	<stdio.h>
 	<stdbool.h>
+
+1541186090 /home/freitas/Documentos/projetoIntegrador/Selby/variaveis.h
+
+1541187131 /home/freitas/Documentos/projetoIntegrador/Selby/funcoes_basicas.h
 
