@@ -13,6 +13,28 @@ int main(void){
         return -1;
     }
 
+    al_draw_bitmap(apresentacao[1], 0, 0, 0);
+    al_rest(1.0);
+    troca_tela(apresentacao[1], apresentacao[2]);
+    al_rest(2.5);
+    troca_tela(apresentacao[2], apresentacao[3]);
+    al_rest(0.1);
+    troca_tela(apresentacao[3], apresentacao[4]);
+    al_rest(0.1);
+    troca_tela(apresentacao[4], apresentacao[5]);
+    al_rest(0.1);
+    troca_tela(apresentacao[5], apresentacao[6]);
+    al_rest(0.1);
+    troca_tela(apresentacao[6], apresentacao[7]);
+    al_rest(0.1);
+    troca_tela(apresentacao[7], apresentacao[8]);
+    al_rest(0.1);
+    troca_tela(apresentacao[8], apresentacao[9]);
+    al_rest(0.1);
+    troca_tela(apresentacao[9], apresentacao[10]);
+    //al_rest(2.0);
+    al_destroy_bitmap(apresentacao[10]);
+    al_draw_bitmap(tela_inicio, 0, 0, 0);
 
 
      // Desenha o menu na tela

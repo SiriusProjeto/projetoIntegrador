@@ -161,6 +161,77 @@ bool inicializar(){
         return false;
     }
 
+    apresentacao[1] = al_load_bitmap("res/img/inicio/inicioJogo1.jpeg");
+    if (!apresentacao[1]){
+        fprintf(stderr, "Falha ao carregar tela de apresentaçao.\n");
+        al_destroy_bitmap(apresentacao[1]);
+        al_destroy_bitmap(boas_vindas[1]);
+        al_destroy_bitmap(boas_vindas[2]);
+        al_destroy_bitmap(boas_vindas[3]);
+        al_destroy_bitmap(tela_inicio);
+        al_destroy_event_queue(fila_eventos);
+        al_destroy_font(fonte);
+        al_destroy_display(janela);
+        al_uninstall_mouse();
+        al_uninstall_audio();
+        al_shutdown_image_addon();
+        al_shutdown_ttf_addon();
+        al_shutdown_font_addon();
+        al_shutdown_primitives_addon();
+        return false;
+    }
+
+    apresentacao[2] = al_load_bitmap("res/img/inicio/inicioJogo2.jpeg");
+    if (!apresentacao[2]){
+        fprintf(stderr, "Falha ao carregar tela de apresentaçao.\n");
+        al_destroy_bitmap(apresentacao[2]);
+        al_destroy_bitmap(apresentacao[1]);
+        al_destroy_bitmap(boas_vindas[1]);
+        al_destroy_bitmap(boas_vindas[2]);
+        al_destroy_bitmap(boas_vindas[3]);
+        al_destroy_bitmap(tela_inicio);
+        al_destroy_event_queue(fila_eventos);
+        al_destroy_font(fonte);
+        al_destroy_display(janela);
+        al_uninstall_mouse();
+        al_uninstall_audio();
+        al_shutdown_image_addon();
+        al_shutdown_ttf_addon();
+        al_shutdown_font_addon();
+        al_shutdown_primitives_addon();
+        return false;
+    }
+
+    apresentacao[3] = al_load_bitmap("res/img/inicio/inicioJogo3.jpeg");
+    if (!apresentacao[3]){
+        fprintf(stderr, "Falha ao carregar tela de apresentaçao.\n");
+        al_destroy_bitmap(apresentacao[3]);
+        al_destroy_bitmap(apresentacao[2]);
+        al_destroy_bitmap(apresentacao[1]);
+        al_destroy_bitmap(boas_vindas[1]);
+        al_destroy_bitmap(boas_vindas[2]);
+        al_destroy_bitmap(boas_vindas[3]);
+        al_destroy_bitmap(tela_inicio);
+        al_destroy_event_queue(fila_eventos);
+        al_destroy_font(fonte);
+        al_destroy_display(janela);
+        al_uninstall_mouse();
+        al_uninstall_audio();
+        al_shutdown_image_addon();
+        al_shutdown_ttf_addon();
+        al_shutdown_font_addon();
+        al_shutdown_primitives_addon();
+        return false;
+    }
+
+    apresentacao[4] = al_load_bitmap("res/img/inicio/inicioJogo4.jpeg");
+    apresentacao[5] = al_load_bitmap("res/img/inicio/inicioJogo5.jpeg");
+    apresentacao[6] = al_load_bitmap("res/img/inicio/inicioJogo6.jpeg");
+    apresentacao[7] = al_load_bitmap("res/img/inicio/inicioJogo7.jpeg");
+    apresentacao[8] = al_load_bitmap("res/img/inicio/inicioJogo8.jpeg");
+    apresentacao[9] = al_load_bitmap("res/img/inicio/inicioJogo9.jpeg");
+    apresentacao[10] = al_load_bitmap("res/img/inicio/inicioJogo10.jpeg");
+
     if (!al_install_keyboard()){
         fprintf(stderr, "Falha ao inicializar o teclado.\n");
         al_destroy_bitmap(boas_vindas[1]);

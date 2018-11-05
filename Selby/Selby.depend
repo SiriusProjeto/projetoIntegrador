@@ -37,3 +37,21 @@
 
 1541187131 /home/freitas/Documentos/projetoIntegrador/Selby/funcoes_basicas.h
 
+1541455003 source:/home/josue/Documentos/projetoIntegrador/Selby/main.c
+	"definicoes.h"
+	"variaveis.h"
+	"funcoes_basicas.h"
+
+1541454732 /home/josue/Documentos/projetoIntegrador/Selby/definicoes.h
+	<allegro5/allegro.h>
+	<allegro5/allegro_font.h>
+	<allegro5/allegro_ttf.h>
+	<allegro5/allegro_image.h>
+	<allegro5/allegro_primitives.h>
+	<stdio.h>
+	<stdbool.h>
+
+1541454835 /home/josue/Documentos/projetoIntegrador/Selby/variaveis.h
+
+1541454919 /home/josue/Documentos/projetoIntegrador/Selby/funcoes_basicas.h
+
