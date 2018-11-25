@@ -1,17 +1,74 @@
+//carrega bibliotecas do projeto
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_image.h>
+#include <allegro5/allegro_primitives.h>
+#include <stdio.h>
+#include <stdbool.h>
+
+
 #include "definicoes.h"
 #include "variaveis.h"
 #include "funcoes_basicas.h"
 
 bool inicializar();
+int a=0, min = -2560;
+const float FPS = 60;
+//ALLEGRO_TIMER *temporizador = NULL;
 
+void moveBitmapInX(ALLEGRO_BITMAP *bitmap, int x, int max){
+//al_draw_text(fonte, al_map_rgb(0,127,255), 30,30 , ALLEGRO_ALIGN_CENTRE, "Você concluiu Vênus!");
+    if(x < max){
+        while(x <= max){
+        al_draw_bitmap(bitmap, x, 0, 0);
+        al_flip_display();
+        x = x + 5;
+        al_clear_to_color(al_map_rgb(0,0,0));
+        }
+    }
+        else if(x > max){
+        while(x >= max){
+        al_draw_bitmap(bitmap, x, 0, 0);
+        al_flip_display();
+        x = x - 5;
+        al_clear_to_color(al_map_rgb(0,0,0));
+        }
+    }
+}
+
+void intercalaTela(ALLEGRO_BITMAP *img1, ALLEGRO_BITMAP *img2){
+    int mudanca = 1;
+    int verdade = 1;
+    while(verdade == 1){
+    while(mudanca == 1){
+        al_draw_bitmap(img1, 0, 0, 0);
+        al_flip_display();
+        al_clear_to_color(al_map_rgb(0, 0, 0));
+        mudanca = mudanca * -1;
+        al_rest(1.0);
+        }
+    while(mudanca == -1){
+        al_draw_bitmap(img2, 0, 0, 0);
+        al_flip_display();
+        al_clear_to_color(al_map_rgb(0, 0, 0));
+        mudanca = mudanca * -1;
+        al_rest(1.0);
+    }
+    //mudanca = mudanca * -1;
+    //al_rest(1.0);
+    }
+}
 
 int main(void){
     bool sair = false;//Iniciei a variavel sair como false..
     int tecla = 0;
-
+    //temporizador = al_create_timer(3.0);
     if (!start_ok()){ //Verifica se tudo iniciou certo
         return -1;
     }
+
+    //al_start_timer(temporizador);
 
     al_draw_bitmap(apresentacao[1], 0, 0, 0);
     al_rest(1.0);
@@ -62,12 +119,25 @@ int main(void){
             if (tecla){
                 switch (tecla){
                 case 1://Caso tenha digitado space
-                    troca_tela(tela_inicio, boas_vindas[1]);//desenha a tela seguinte
+                    troca_tela(tela_inicio, boas_vindas[0]);//desenha a tela seguinte
+                    al_rest(5.0);
+                    troca_tela(boas_vindas[0], boas_vindas[1]);
                     al_rest(5.0);
                     troca_tela(boas_vindas[1], boas_vindas[2]);
                     al_rest(5.0);
-                    troca_tela(boas_vindas[2], boas_vindas[3]);
-                    al_rest(5.0);
+                    //troca_tela(boas_vindas[2], transicaoTerra);
+                    al_destroy_bitmap(boas_vindas[2]);
+moveBitmapInX(transicaoTerra, a, min);
+
+//al_clear_to_color(al_map_rgb(255,255,255));
+al_flip_display();
+al_destroy_bitmap(transicaoTerra);
+al_flip_display();
+al_draw_bitmap(venus, 0, 0, 0);
+al_flip_display();
+al_rest(7.0);
+al_flip_display();
+intercalaTela(explicaTerra[0], explicaTerra[1]);
                     break ;
                 }
                 tecla = 0;

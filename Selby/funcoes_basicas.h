@@ -110,8 +110,8 @@ bool inicializar(){
         return false;
     }
 
-    boas_vindas[1] = al_load_bitmap("res/img/transicoes_de_tela/boasvindas.jpg");
-    if (!boas_vindas[1]){
+    boas_vindas[0] = al_load_bitmap("res/img/transicoes_de_tela/boasvindas.jpg");
+    if (!boas_vindas[0]){
         fprintf(stderr, "Falha ao carregar tela.\n");
         al_destroy_bitmap(tela_inicio);
         al_destroy_event_queue(fila_eventos);
@@ -126,8 +126,8 @@ bool inicializar(){
         return false;
     }
 
-    boas_vindas[2] = al_load_bitmap("res/img/transicoes_de_tela/boasvindas2.jpg");
-    if (!boas_vindas[2]){
+    boas_vindas[1] = al_load_bitmap("res/img/transicoes_de_tela/boasvindas2.jpg");
+    if (!boas_vindas[1]){
         fprintf(stderr, "Falha ao carregar tela.\n");
         al_destroy_bitmap(boas_vindas[1]);
         al_destroy_bitmap(tela_inicio);
@@ -143,7 +143,7 @@ bool inicializar(){
         return false;
     }
 
-    boas_vindas[3] = al_load_bitmap("res/img/transicoes_de_tela/boasvindas3.jpg");
+    boas_vindas[2] = al_load_bitmap("res/img/transicoes_de_tela/boasvindas3.jpg");
     if (!boas_vindas[2]){
         fprintf(stderr, "Falha ao carregar tela.\n");
         al_destroy_bitmap(boas_vindas[1]);
@@ -163,11 +163,11 @@ bool inicializar(){
 
     apresentacao[1] = al_load_bitmap("res/img/inicio/inicioJogo1.jpeg");
     if (!apresentacao[1]){
-        fprintf(stderr, "Falha ao carregar tela de apresentaçao.\n");
+                fprintf(stderr, "Falha ao carregar tela de apresentaçao.\n");
         al_destroy_bitmap(apresentacao[1]);
+        al_destroy_bitmap(boas_vindas[0]);
         al_destroy_bitmap(boas_vindas[1]);
         al_destroy_bitmap(boas_vindas[2]);
-        al_destroy_bitmap(boas_vindas[3]);
         al_destroy_bitmap(tela_inicio);
         al_destroy_event_queue(fila_eventos);
         al_destroy_font(fonte);
@@ -186,9 +186,9 @@ bool inicializar(){
         fprintf(stderr, "Falha ao carregar tela de apresentaçao.\n");
         al_destroy_bitmap(apresentacao[2]);
         al_destroy_bitmap(apresentacao[1]);
+        al_destroy_bitmap(boas_vindas[0]);
         al_destroy_bitmap(boas_vindas[1]);
         al_destroy_bitmap(boas_vindas[2]);
-        al_destroy_bitmap(boas_vindas[3]);
         al_destroy_bitmap(tela_inicio);
         al_destroy_event_queue(fila_eventos);
         al_destroy_font(fonte);
@@ -208,9 +208,9 @@ bool inicializar(){
         al_destroy_bitmap(apresentacao[3]);
         al_destroy_bitmap(apresentacao[2]);
         al_destroy_bitmap(apresentacao[1]);
+        al_destroy_bitmap(boas_vindas[0]);
         al_destroy_bitmap(boas_vindas[1]);
         al_destroy_bitmap(boas_vindas[2]);
-        al_destroy_bitmap(boas_vindas[3]);
         al_destroy_bitmap(tela_inicio);
         al_destroy_event_queue(fila_eventos);
         al_destroy_font(fonte);
@@ -231,12 +231,16 @@ bool inicializar(){
     apresentacao[8] = al_load_bitmap("res/img/inicio/inicioJogo8.jpeg");
     apresentacao[9] = al_load_bitmap("res/img/inicio/inicioJogo9.jpeg");
     apresentacao[10] = al_load_bitmap("res/img/inicio/inicioJogo10.jpeg");
+    venus = al_load_bitmap("res/img/transicoes_de_tela/transicaoTerra.jpg");
+    transicaoTerra = al_load_bitmap("res/img/transicoes_de_tela/avaliacaoVenus.jpg");
+    explicaTerra[0] = al_load_bitmap("res/img/fase_Terra/explicacaoTerra1.jpg");
+    explicaTerra[1] = al_load_bitmap("res/img/fase_Terra/explicacaoTerra2.jpg");
 
     if (!al_install_keyboard()){
         fprintf(stderr, "Falha ao inicializar o teclado.\n");
+        al_destroy_bitmap(boas_vindas[0]);
         al_destroy_bitmap(boas_vindas[1]);
         al_destroy_bitmap(boas_vindas[2]);
-        al_destroy_bitmap(boas_vindas[3]);
         al_destroy_bitmap(tela_inicio);
         al_destroy_event_queue(fila_eventos);
         al_destroy_font(fonte);
@@ -280,9 +284,18 @@ bool start_ok(){
 }
 
 
+//Troca a imagem anterior por uma nova, determinando em que posição a nova ser criada
+/*void trocaTela(ALLEGRO_BITMAP *img1, ALLEGRO_BITMAP *img2, float x, float y){
+    al_destroy_bitmap(img1);
+    al_flip_display();
+    al_draw_bitmap(img2, x, y, 0);
+    al_flip_display();
+}*/
 
+
+//Troca a imagem anterior por uma nova, determinando em que posição a nova ser criada
 void troca_tela(ALLEGRO_BITMAP *img1, ALLEGRO_BITMAP *img2){
-    al_destroy_bitmap(img1);// Destroi a tela de inicio
+    al_destroy_bitmap(img1);
     al_flip_display();
     al_draw_bitmap(img2, 0, 0, 0);
     al_flip_display();
