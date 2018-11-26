@@ -1,3 +1,4 @@
+
 bool inicializar(){
     if (!al_init()){
         fprintf(stderr, "Falha ao inicializar a Allegro.\n");
@@ -68,7 +69,9 @@ bool inicializar(){
 
     al_set_window_title(janela, "Selby Space");
 
+    printf("fonte antes: %d\n", fonte);
     fonte = al_load_font("res/font/comic.ttf", fontSize, 0);
+    printf("fonte depois: %d\n", fonte);
     if (!fonte){
         fprintf(stderr, "Falha ao carregar \"fonte comic.ttf\".\n");
         al_destroy_display(janela);
@@ -84,7 +87,7 @@ bool inicializar(){
     fila_eventos = al_create_event_queue();
     if (!fila_eventos){
         fprintf(stderr, "Falha ao criar fila de eventos.\n");
-        al_destroy_font(fonte);
+        // al_destroy_font(fonte);
         al_destroy_display(janela);
         al_uninstall_mouse();
         al_uninstall_audio();
@@ -99,7 +102,7 @@ bool inicializar(){
     if (!tela_inicio){
         fprintf(stderr, "Falha ao carregar imagem.\n");
         al_destroy_event_queue(fila_eventos);
-        al_destroy_font(fonte);
+        // al_destroy_font(fonte);
         al_destroy_display(janela);
         al_uninstall_mouse();
         al_uninstall_audio();
@@ -115,7 +118,7 @@ bool inicializar(){
         fprintf(stderr, "Falha ao carregar tela.\n");
         al_destroy_bitmap(tela_inicio);
         al_destroy_event_queue(fila_eventos);
-        al_destroy_font(fonte);
+        // al_destroy_font(fonte);
         al_destroy_display(janela);
         al_uninstall_mouse();
         al_uninstall_audio();
@@ -133,7 +136,7 @@ bool inicializar(){
         al_destroy_bitmap(boas_vindas[1]);
         al_destroy_bitmap(tela_inicio);
         al_destroy_event_queue(fila_eventos);
-        al_destroy_font(fonte);
+        // al_destroy_font(fonte);
         al_destroy_display(janela);
         al_uninstall_mouse();
         al_uninstall_audio();
@@ -151,7 +154,7 @@ bool inicializar(){
         al_destroy_bitmap(boas_vindas[2]);
         al_destroy_bitmap(tela_inicio);
         al_destroy_event_queue(fila_eventos);
-        al_destroy_font(fonte);
+        // al_destroy_font(fonte);
         al_destroy_display(janela);
         al_uninstall_mouse();
         al_uninstall_audio();
@@ -162,8 +165,8 @@ bool inicializar(){
         return false;
     }
 
-    apresentacao[1] = al_load_bitmap("res/img/inicio/inicioJogo1.jpeg");
-    if (!apresentacao[1]){
+    apresentacao[0] = al_load_bitmap("res/img/inicio/inicioJogo1.jpeg");
+    if (!apresentacao[0]){
                 fprintf(stderr, "Falha ao carregar tela de apresentaçao.\n");
         al_destroy_bitmap(apresentacao[1]);
         al_destroy_bitmap(boas_vindas[0]);
@@ -171,7 +174,7 @@ bool inicializar(){
         al_destroy_bitmap(boas_vindas[2]);
         al_destroy_bitmap(tela_inicio);
         al_destroy_event_queue(fila_eventos);
-        al_destroy_font(fonte);
+        // al_destroy_font(fonte);
         al_destroy_display(janela);
         al_uninstall_mouse();
         al_uninstall_audio();
@@ -182,17 +185,39 @@ bool inicializar(){
         return false;
     }
 
-    apresentacao[2] = al_load_bitmap("res/img/inicio/inicioJogo2.jpeg");
+    apresentacao[1] = al_load_bitmap("res/img/inicio/inicioJogo2.jpeg");
+    if (!apresentacao[1]){
+        fprintf(stderr, "Falha ao carregar tela de apresentaçao.\n");
+        al_destroy_bitmap(apresentacao[1]);
+        al_destroy_bitmap(apresentacao[0]);
+        al_destroy_bitmap(boas_vindas[0]);
+        al_destroy_bitmap(boas_vindas[1]);
+        al_destroy_bitmap(boas_vindas[2]);
+        al_destroy_bitmap(tela_inicio);
+        al_destroy_event_queue(fila_eventos);
+        // al_destroy_font(fonte);
+        al_destroy_display(janela);
+        al_uninstall_mouse();
+        al_uninstall_audio();
+        al_shutdown_image_addon();
+        al_shutdown_ttf_addon();
+        al_shutdown_font_addon();
+        al_shutdown_primitives_addon();
+        return false;
+    }
+
+    apresentacao[2] = al_load_bitmap("res/img/inicio/inicioJogo3.jpeg");
     if (!apresentacao[2]){
         fprintf(stderr, "Falha ao carregar tela de apresentaçao.\n");
         al_destroy_bitmap(apresentacao[2]);
         al_destroy_bitmap(apresentacao[1]);
+        al_destroy_bitmap(apresentacao[0]);
         al_destroy_bitmap(boas_vindas[0]);
         al_destroy_bitmap(boas_vindas[1]);
         al_destroy_bitmap(boas_vindas[2]);
         al_destroy_bitmap(tela_inicio);
         al_destroy_event_queue(fila_eventos);
-        al_destroy_font(fonte);
+        // al_destroy_font(fonte);
         al_destroy_display(janela);
         al_uninstall_mouse();
         al_uninstall_audio();
@@ -203,35 +228,13 @@ bool inicializar(){
         return false;
     }
 
-    apresentacao[3] = al_load_bitmap("res/img/inicio/inicioJogo3.jpeg");
-    if (!apresentacao[3]){
-        fprintf(stderr, "Falha ao carregar tela de apresentaçao.\n");
-        al_destroy_bitmap(apresentacao[3]);
-        al_destroy_bitmap(apresentacao[2]);
-        al_destroy_bitmap(apresentacao[1]);
-        al_destroy_bitmap(boas_vindas[0]);
-        al_destroy_bitmap(boas_vindas[1]);
-        al_destroy_bitmap(boas_vindas[2]);
-        al_destroy_bitmap(tela_inicio);
-        al_destroy_event_queue(fila_eventos);
-        al_destroy_font(fonte);
-        al_destroy_display(janela);
-        al_uninstall_mouse();
-        al_uninstall_audio();
-        al_shutdown_image_addon();
-        al_shutdown_ttf_addon();
-        al_shutdown_font_addon();
-        al_shutdown_primitives_addon();
-        return false;
-    }
-
-    apresentacao[4] = al_load_bitmap("res/img/inicio/inicioJogo4.jpeg");
-    apresentacao[5] = al_load_bitmap("res/img/inicio/inicioJogo5.jpeg");
-    apresentacao[6] = al_load_bitmap("res/img/inicio/inicioJogo6.jpeg");
-    apresentacao[7] = al_load_bitmap("res/img/inicio/inicioJogo7.jpeg");
-    apresentacao[8] = al_load_bitmap("res/img/inicio/inicioJogo8.jpeg");
-    apresentacao[9] = al_load_bitmap("res/img/inicio/inicioJogo9.jpeg");
-    apresentacao[10] = al_load_bitmap("res/img/inicio/inicioJogo10.jpeg");
+    apresentacao[3] = al_load_bitmap("res/img/inicio/inicioJogo4.jpeg");
+    apresentacao[4] = al_load_bitmap("res/img/inicio/inicioJogo5.jpeg");
+    apresentacao[5] = al_load_bitmap("res/img/inicio/inicioJogo6.jpeg");
+    apresentacao[6] = al_load_bitmap("res/img/inicio/inicioJogo7.jpeg");
+    apresentacao[7] = al_load_bitmap("res/img/inicio/inicioJogo8.jpeg");
+    apresentacao[8] = al_load_bitmap("res/img/inicio/inicioJogo9.jpeg");
+    apresentacao[9] = al_load_bitmap("res/img/inicio/inicioJogo10.jpeg");
     venus = al_load_bitmap("res/img/transicoes_de_tela/transicaoTerra.jpg");
     transicaoTerra = al_load_bitmap("res/img/transicoes_de_tela/avaliacaoVenus.jpg");
     explicaTerra[0] = al_load_bitmap("res/img/fase_Terra/explicacaoTerra1.jpg");
@@ -244,7 +247,7 @@ bool inicializar(){
         al_destroy_bitmap(boas_vindas[2]);
         al_destroy_bitmap(tela_inicio);
         al_destroy_event_queue(fila_eventos);
-        al_destroy_font(fonte);
+        // al_destroy_font(fonte);
         al_destroy_display(janela);
         al_uninstall_mouse();
         al_uninstall_audio();
@@ -268,8 +271,11 @@ bool start_ok(){
     if (inicializar()){
         return true;
     } else {
+        printf("aqui não vem!\n");
         al_uninstall_keyboard();
-        al_destroy_bitmap(boas_vindas);
+        al_destroy_bitmap(boas_vindas[0]);
+        al_destroy_bitmap(boas_vindas[1]);
+        al_destroy_bitmap(boas_vindas[2]);
         al_destroy_bitmap(tela_inicio);
         al_destroy_event_queue(fila_eventos);
         al_destroy_font(fonte);
