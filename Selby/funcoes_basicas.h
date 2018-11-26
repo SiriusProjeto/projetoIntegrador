@@ -127,7 +127,7 @@ bool inicializar(){
     }
 
     boas_vindas[1] = al_load_bitmap("res/img/transicoes_de_tela/boasvindas2.jpg");
-    boas_vindas_alerta = al_load_bitmap("res/img/transicoes_de_tela/boasvindasalerta.jpg");
+    boas_vindas_alerta = al_load_bitmap("res/img/transicoes_de_tela/boasvindas2alerta.jpg");
     if (!boas_vindas[1]){
         fprintf(stderr, "Falha ao carregar tela.\n");
         al_destroy_bitmap(boas_vindas[1]);
