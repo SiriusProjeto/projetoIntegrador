@@ -6,8 +6,6 @@
 #include <allegro5/allegro_primitives.h>
 #include <stdio.h>
 #include <stdbool.h>
-
-
 #include "definicoes.h"
 #include "variaveis.h"
 #include "funcoes_basicas.h"
@@ -37,26 +35,27 @@ void moveBitmapInX(ALLEGRO_BITMAP *bitmap, int x, int max){
     }
 }
 
-void intercalaTela(ALLEGRO_BITMAP *img1, ALLEGRO_BITMAP *img2){
+void intercalaTela(ALLEGRO_BITMAP *img1, ALLEGRO_BITMAP *img2, float tempo, int verdade){
     int mudanca = 1;
-    int verdade = 1;
-    while(verdade == 1){
-    while(mudanca == 1){
-        al_draw_bitmap(img1, 0, 0, 0);
-        al_flip_display();
-        al_clear_to_color(al_map_rgb(0, 0, 0));
-        mudanca = mudanca * -1;
-        al_rest(1.0);
+    //bool mudanca = true, verdade = true;
+    while(verdade > 0 || verdade < 0){
+        while(mudanca == 1){
+            al_draw_bitmap(img1, 0, 0, 0);
+            al_flip_display();
+            al_clear_to_color(al_map_rgb(0, 0, 0));
+            mudanca = mudanca * -1;
+            if (verdade > 0) verdade--;
+            al_rest(tempo);
+            }
+        while(mudanca == -1){
+            al_draw_bitmap(img2, 0, 0, 0);
+            al_flip_display();
+            al_clear_to_color(al_map_rgb(0, 0, 0));
+            mudanca = mudanca * -1;
+            if (verdade > 0) verdade--;
+            al_rest(tempo);
+
         }
-    while(mudanca == -1){
-        al_draw_bitmap(img2, 0, 0, 0);
-        al_flip_display();
-        al_clear_to_color(al_map_rgb(0, 0, 0));
-        mudanca = mudanca * -1;
-        al_rest(1.0);
-    }
-    //mudanca = mudanca * -1;
-    //al_rest(1.0);
     }
 }
 
@@ -119,25 +118,25 @@ int main(void){
             if (tecla){
                 switch (tecla){
                 case 1://Caso tenha digitado space
+                al_clear_to_color(al_map_rgb(0,0,0));
+                al_draw_text(fonte, al_map_rgb(0,127,255), 30, 60, 0, "TESTE DE TEXTO");
                     troca_tela(tela_inicio, boas_vindas[0]);//desenha a tela seguinte
                     al_rest(5.0);
                     troca_tela(boas_vindas[0], boas_vindas[1]);
-                    al_rest(5.0);
+                    intercalaTela(boas_vindas[1], boas_vindas_alerta, 0.5, 10);
                     troca_tela(boas_vindas[1], boas_vindas[2]);
                     al_rest(5.0);
-                    //troca_tela(boas_vindas[2], transicaoTerra);
                     al_destroy_bitmap(boas_vindas[2]);
-moveBitmapInX(transicaoTerra, a, min);
+                    moveBitmapInX(transicaoTerra, a, min);
+                    al_flip_display();
+                    al_destroy_bitmap(transicaoTerra);
+                    al_flip_display();
+                    al_draw_bitmap(venus, 0, 0, 0);
+                    al_flip_display();
+                    al_rest(7.0);
+                    al_flip_display();
+                    intercalaTela(explicaTerra[0], explicaTerra[1], 1.0, -1);
 
-//al_clear_to_color(al_map_rgb(255,255,255));
-al_flip_display();
-al_destroy_bitmap(transicaoTerra);
-al_flip_display();
-al_draw_bitmap(venus, 0, 0, 0);
-al_flip_display();
-al_rest(7.0);
-al_flip_display();
-intercalaTela(explicaTerra[0], explicaTerra[1]);
                     break ;
                 }
                 tecla = 0;
