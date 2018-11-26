@@ -118,8 +118,8 @@ int main(void){
             if (tecla){
                 switch (tecla){
                 case 1://Caso tenha digitado space
-                al_clear_to_color(al_map_rgb(0,0,0));
-                al_draw_text(fonte, al_map_rgb(0,127,255), 30, 60, 0, "TESTE DE TEXTO");
+                //al_clear_to_color(al_map_rgb(0,0,0));
+                //al_draw_text(fonte, al_map_rgb(0,127,255), 30, 60, 0, "TESTE DE TEXTO");
                     troca_tela(tela_inicio, boas_vindas[0]);//desenha a tela seguinte
                     al_rest(5.0);
                     troca_tela(boas_vindas[0], boas_vindas[1]);
