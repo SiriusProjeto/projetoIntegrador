@@ -4,6 +4,7 @@ const int fontSize = 42;
 
 ALLEGRO_DISPLAY *janela = NULL;
 ALLEGRO_EVENT_QUEUE *fila_eventos = NULL;
+
 ALLEGRO_FONT *fonte = NULL;
 ALLEGRO_COLOR *cor_fonte_principal = NULL;
 
@@ -19,3 +20,4 @@ ALLEGRO_BITMAP *transicaoTerra = NULL;
 ALLEGRO_BITMAP *explicaTerra[2] = {NULL, NULL};
 
 
+char palavra[15];
