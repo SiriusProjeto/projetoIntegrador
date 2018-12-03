@@ -13,9 +13,14 @@
 bool inicializar();
 int a=0, min = -2560;
 const float FPS = 60;
+char Perg2[] = "Qual o satelite natural da terra";
+//respota 1
+char Resp1[] = "Venus";
+char Resp2[] = "Lua";
+char Resp3[] = "Banana";
 //ALLEGRO_TIMER *temporizador = NULL;
 
-void moveBitmapInX(ALLEGRO_BITMAP *bitmap, int x, int max){
+void mover_bitmap_em_x(ALLEGRO_BITMAP *bitmap, int x, int max){
     if(x < max){
         while(x <= max){
             al_draw_bitmap(bitmap, x, 0, 0);
@@ -34,25 +39,25 @@ void moveBitmapInX(ALLEGRO_BITMAP *bitmap, int x, int max){
     }
 }
 
-void intercalaTela(ALLEGRO_BITMAP *img1, ALLEGRO_BITMAP *img2, float tempo, int verdade){
+void intercala_tela(ALLEGRO_BITMAP *img1, ALLEGRO_BITMAP *img2, float tempo_de_trocar, int temporizador){
     int mudanca = 1;
-    //bool mudanca = true, verdade = true;
-    while(verdade != 0){
-        if(mudanca == 1){
-            al_draw_bitmap(img1, 0, 0, 0);
-            al_flip_display();
-            al_clear_to_color(al_map_rgb(0, 0, 0));
-            mudanca = mudanca * -1;
-            if (verdade > 0) verdade--;
-            al_rest(tempo);
-        }
-        if(mudanca == -1){
-            al_draw_bitmap(img2, 0, 0, 0);
-            al_flip_display();
-            al_clear_to_color(al_map_rgb(0, 0, 0));
-            mudanca = mudanca * -1;
-            if (verdade > 0) verdade--;
-            al_rest(tempo);
+    while(temporizador != 0){
+        if (temporizador > 0) temporizador--;
+            if(mudanca == 1){
+                al_draw_bitmap(img1, 0, 0, 0);
+                al_flip_display();
+                al_clear_to_color(al_map_rgb(0, 0, 0));
+                mudanca = mudanca * -1;
+                //if (temporizador > 0) temporizador--;
+                al_rest(tempo_de_trocar);
+            }
+            if(mudanca == -1){
+                al_draw_bitmap(img2, 0, 0, 0);
+                al_flip_display();
+                al_clear_to_color(al_map_rgb(0, 0, 0));
+                mudanca = mudanca * -1;
+                //if (temporizador > 0) temporizador--;
+                al_rest(tempo_de_trocar);
         }
     }
 }
@@ -118,17 +123,17 @@ int main(void){
 
         if (tecla){
             switch (tecla){
-                case 10://Caso tenha digitado space
+                case 1://Caso tenha digitado space
                 //al_clear_to_color(al_map_rgb(0,0,0));
                 //al_draw_text(fonte, al_map_rgb(0,127,255), 30, 60, 0, "TESTE DE TEXTO");
                     troca_tela(tela_inicio, boas_vindas[0]);//desenha a tela seguinte
                     al_rest(5.0);
                     troca_tela(boas_vindas[0], boas_vindas[1]);
-                    intercalaTela(boas_vindas[1], boas_vindas_alerta, 0.5, 10);
+                    intercala_tela(boas_vindas[1], boas_vindas_alerta, 0.5, 5);
                     troca_tela(boas_vindas[1], boas_vindas[2]);
                     al_rest(5.0);
                     al_destroy_bitmap(boas_vindas[2]);
-                    moveBitmapInX(transicaoTerra, a, min);
+                    mover_bitmap_em_x(transicaoTerra, a, min);
                     al_flip_display();
                     al_destroy_bitmap(transicaoTerra);
                     al_flip_display();
@@ -136,10 +141,17 @@ int main(void){
                     al_flip_display();
                     al_rest(7.0);
                     al_flip_display();
-                    intercalaTela(explicaTerra[0], explicaTerra[1], 1.0, -1);
-
+                    intercala_tela(explicaTerra[0], explicaTerra[1], 1.0, -1);
+al_draw_bitmap(acre, 0, 0, 0);
+al_flip_display();
+al_draw_text(fonte, al_map_rgb(255,0,0) ,100 ,100, ALLEGRO_ALIGN_LEFT, Perg2);
                     break ;
-                    case 1:
+
+                    case 12:
+                    al_draw_bitmap(venus, 0, 0, 0);
+                    al_flip_display();
+
+                    case 11:
                     al_clear_to_color(al_map_rgb(255,255,255));
                     printf("fonte aqui: %d\n", fonte);
                         // al_draw_text(fonte, al_map_rgb(255,0,0) ,ALTURA_TELA - 100 ,LARGURA_TELA - 100, ALLEGRO_ALIGN_LEFT, "Teste");
@@ -346,9 +358,12 @@ int main(void){
                         }
 
                 //zera a tecla para a proxima vez nao entrar aqui de novo
-                        al_draw_text(fonte, al_map_rgb(0, 0, 0), LARGURA_TELA / 2,
+                        /*al_draw_text(fonte, al_map_rgb(0, 0, 0), LARGURA_TELA / 2,
                             ALTURA_TELA / 4 - al_get_font_ascent(fonte) / 4,
-                            ALLEGRO_ALIGN_CENTER, palavra);
+                            ALLEGRO_ALIGN_LEFT, palavra);
+                        al_draw_bitmap(acre, 0, 0, 0);
+al_flip_display();
+al_draw_text(fonte, al_map_rgb(255,0,0) ,100 ,100, ALLEGRO_ALIGN_LEFT, Perg2);
                         tecla = 0;
                     }
                     al_flip_display();
