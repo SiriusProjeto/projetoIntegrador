@@ -1,4 +1,0 @@
-SET (IPHONE 1)
-
-SET (SDKROOT "iphoneos")
-SET (CMAKE_OSX_SYSROOT "${SDKROOT}")
